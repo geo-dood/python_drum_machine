@@ -1,23 +1,12 @@
-# Simple Drum Machine Application
-# Author: George Maysack-Schlueter
-
-# ----------------------------------------------------------------------------------------------------------------------
-
 # Importing PyGame & the Mixer, initializing it.
 import pygame
+from pygame import mixer
 
-# import mixer
 pygame.init()
 
-# ----------------------------------------------------------------------------------------------------------------------
-
-# Variable Library:
-
-# Setting up window dimensions - can be adjusted, but should be wider than it is tall.
 WIDTH = 1400
 HEIGHT = 800
 
-# Defining colors we will be using.
 black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
@@ -39,8 +28,33 @@ clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
 bpm = 240
 playing = True
 active_length = 0
-active_beat = 0
+active_beat = 1
 beat_changed = True
+
+# Loading in drum sounds
+snare = mixer.Sound('Drum Sounds\snare.wav')
+kick = mixer.Sound('Drum Sounds\kick.wav')
+knock = mixer.Sound('Drum Sounds\knock.wav')
+closed_hat = mixer.Sound('Drum Sounds\closed_hat.wav')
+open_hat = mixer.Sound('Drum Sounds\open_hat.wav')
+clap = mixer.Sound('Drum Sounds\clap.wav')
+
+
+def play_notes():
+    for i in range(len(clicked)):
+        if clicked[i][active_beat] == 1:
+            if i == 0:
+                snare.play()
+            if i == 1:
+                kick.play()
+            if i == 2:
+                knock.play()
+            if i == 3:
+                closed_hat.play()
+            if i == 4:
+                open_hat.play()
+            if i == 5:
+                clap.play()
 
 
 def draw_grid(clicks, beat):
@@ -89,6 +103,9 @@ while run:
     timer.tick(fps)
     screen.fill(cream)
     boxes = draw_grid(clicked, active_beat)
+    if beat_changed:
+        play_notes()
+        beat_changed = False
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -106,14 +123,14 @@ while run:
             active_length += 1
         else:
             active_length = 0
-            if active_beat < beats -1:
+            if active_beat < beats - 1:
                 active_beat += 1
                 beat_changed = True
             else:
                 active_beat = 0
-                beat_changed = 0
+                beat_changed = True
 
     pygame.display.flip()
 pygame.quit()
 
-# REACHED 49:00 IN TUTORIAL!!!
+# REACHED 55:00
