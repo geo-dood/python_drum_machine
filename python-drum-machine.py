@@ -152,4 +152,4 @@ while run:
     pygame.display.flip()
 pygame.quit()
 
-# REACHED 55:00
+# REACHED 1:05:30
