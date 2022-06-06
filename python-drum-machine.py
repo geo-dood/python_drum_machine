@@ -10,14 +10,16 @@ HEIGHT = 800
 black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
-red = (174, 12, 12)
-dark_gray = (88, 83, 83)
+red = (220, 20, 60)
+dark_gray = (90, 90, 90)
 cream = (255, 253, 208)
-bright_red = (255, 58, 58)
+bright_red = (255, 0, 0)
+green = (0, 255, 127)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Simple Python Drum Machine by George Maysack')
 caption_font = pygame.font.Font('freesansbold.ttf', 32)
+medium_font = pygame.font.Font('freesansbold.ttf', 24)
 
 fps = 60
 timer = pygame.time.Clock()
@@ -38,6 +40,7 @@ knock = mixer.Sound('Drum Sounds\knock.wav')
 closed_hat = mixer.Sound('Drum Sounds\closed_hat.wav')
 open_hat = mixer.Sound('Drum Sounds\open_hat.wav')
 clap = mixer.Sound('Drum Sounds\clap.wav')
+pygame.mixer.set_num_channels(instruments * 3)
 
 
 def play_notes():
@@ -103,6 +106,16 @@ while run:
     timer.tick(fps)
     screen.fill(cream)
     boxes = draw_grid(clicked, active_beat)
+    # lower menu buttons
+    play_pause = pygame.draw.rect(screen, gray, [50, HEIGHT - 150, 200, 100], 0, 5)
+    play_text = caption_font.render('Play/Pause', True, white)
+    screen.blit(play_text, (70, HEIGHT - 130))
+    if playing:
+        play_text2 = medium_font.render('Playing', True, green)
+    else:
+        play_text2 = medium_font.render('Paused', True, red)
+    screen.blit(play_text2, (70, HEIGHT - 95))
+
     if beat_changed:
         play_notes()
         beat_changed = False
@@ -115,6 +128,12 @@ while run:
                 if boxes[i][0].collidepoint(event.pos):
                     coords = boxes[i][1]
                     clicked[coords[1]][coords[0]] *= -1
+        if event.type == pygame.MOUSEBUTTONUP:
+            if play_pause.collidepoint(event.pos):
+                if playing:
+                    playing = False
+                elif not playing:
+                    playing = True
 
     beat_length = 3600 // bpm
 
