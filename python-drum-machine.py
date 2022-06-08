@@ -20,6 +20,8 @@ screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Simple Python Drum Machine by George Maysack')
 caption_font = pygame.font.Font('freesansbold.ttf', 32)
 medium_font = pygame.font.Font('freesansbold.ttf', 24)
+huge_font = pygame.font.Font('freesansbold.ttf', 42)
+
 
 fps = 60
 timer = pygame.time.Clock()
@@ -27,7 +29,7 @@ beats = 8
 instruments = 6
 boxes = []
 clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
-bpm = 240
+bpm = 150
 playing = True
 active_length = 0
 active_beat = 1
@@ -108,13 +110,25 @@ while run:
     boxes = draw_grid(clicked, active_beat)
     # lower menu buttons
     play_pause = pygame.draw.rect(screen, gray, [50, HEIGHT - 150, 200, 100], 0, 5)
-    play_text = caption_font.render('Play/Pause', True, white)
-    screen.blit(play_text, (70, HEIGHT - 130))
+    play_text = caption_font.render('Play/Pause:', True, white)
+    screen.blit(play_text, (59, HEIGHT - 140))
     if playing:
         play_text2 = medium_font.render('Playing', True, green)
     else:
         play_text2 = medium_font.render('Paused', True, red)
-    screen.blit(play_text2, (70, HEIGHT - 95))
+    screen.blit(play_text2, (59, HEIGHT - 95))
+    # bpm functionality
+    bpm_rect = pygame.draw.rect(screen, gray, [280, HEIGHT - 150, 220, 100], 0, 5)
+    bpm_text = medium_font.render('Beats Per Minute:', True, white)
+    screen.blit(bpm_text, (285, HEIGHT - 140))
+    bpm_text2 = caption_font.render(f'{bpm} bpm', True, white)
+    screen.blit(bpm_text2, (320, HEIGHT - 100))
+    bpm_add_rect = pygame.draw.rect(screen, gray, [505, HEIGHT - 147, 45, 45], 0, 5)
+    bpm_sub_rect = pygame.draw.rect(screen, gray, [505, HEIGHT - 98, 45, 45], 0, 5)
+    add_text = caption_font.render('+', True, white)
+    sub_text = huge_font.render('-', True, white)
+    screen.blit(add_text, (518, HEIGHT - 143))
+    screen.blit(sub_text, (520, HEIGHT - 97))
 
     if beat_changed:
         play_notes()
@@ -134,6 +148,10 @@ while run:
                     playing = False
                 elif not playing:
                     playing = True
+            elif bpm_add_rect.collidepoint(event.pos):
+                bpm += 5
+            elif bpm_sub_rect.collidepoint(event.pos):
+                bpm -= 5
 
     beat_length = 3600 // bpm
 
