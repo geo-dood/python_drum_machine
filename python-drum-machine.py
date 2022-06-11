@@ -150,6 +150,15 @@ while run:
     for i in range(instruments):
         rect = pygame.rect.Rect((0, i * 100), (200, 100))
         instrument_rects.append(rect)
+    # save and load buttons
+    save_button = pygame.draw.rect(screen, gray, [875, HEIGHT - 150, 200, 48], 0, 5)
+    save_text = caption_font.render('Save Beat', True, white)
+    screen.blit(save_text, (895, HEIGHT - 140))
+    load_button = pygame.draw.rect(screen, gray, [875, HEIGHT - 100, 200, 48], 0, 5)
+    load_text = caption_font.render('Load Beat', True, white)
+    screen.blit(load_text, (895, HEIGHT - 90))
+
+
 
 
     if beat_changed:
