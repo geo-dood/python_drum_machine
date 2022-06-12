@@ -18,9 +18,9 @@ green = (0, 255, 127)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Simple Python Drum Machine by George Maysack')
-caption_font = pygame.font.Font('freesansbold.ttf', 32)
-medium_font = pygame.font.Font('freesansbold.ttf', 24)
-huge_font = pygame.font.Font('freesansbold.ttf', 42)
+caption_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 32)
+medium_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 24)
+huge_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 42)
 
 
 fps = 60
