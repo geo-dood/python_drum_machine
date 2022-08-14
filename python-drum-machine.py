@@ -1,6 +1,9 @@
 # Importing PyGame & the Mixer, initializing it.
+from typing import Union
+
 import pygame
 from pygame import mixer
+from pygame.rect import Rect, RectType
 
 pygame.init()
 
@@ -22,7 +25,6 @@ caption_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 32)
 medium_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 24)
 huge_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 42)
 
-
 fps = 60
 timer = pygame.time.Clock()
 beats = 8
@@ -42,7 +44,6 @@ file = open('saved_beats.txt', 'r')
 for line in file:
     saved_beats.append(line)
 
-
 # Loading in drum sounds
 snare = mixer.Sound('Drum Sounds/snare.wav')
 kick = mixer.Sound('Drum Sounds/kick.wav')
@@ -54,25 +55,26 @@ pygame.mixer.set_num_channels(instruments * 3)
 
 
 def play_notes():
-    for i in range(len(clicked)):
-        if clicked[i][active_beat] == 1 and active_list[i] == 1:
-            if i == 0:
+    for I in range(len(clicked)):
+        if clicked[I][active_beat] == 1 and active_list[I] == 1:
+            if I == 0:
                 snare.play()
-            if i == 1:
+            if I == 1:
                 kick.play()
-            if i == 2:
+            if I == 2:
                 closed_hat.play()
-            if i == 3:
+            if I == 3:
                 shaker.play()
-            if i == 4:
+            if I == 4:
                 bell.play()
-            if i == 5:
+            if I == 5:
                 bass.play()
 
 
+# noinspection PyShadowingNames,PyUnusedLocal
 def draw_grid(clicks, beat, actives):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)
-    bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5)
+    pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5)
     boxes = []
     colors = [gray, black, gray]
     snare_text = caption_font.render('Snare', True, colors[actives[0]])
@@ -87,11 +89,11 @@ def draw_grid(clicks, beat, actives):
     screen.blit(bell_text, (10, 430))
     bass_text = caption_font.render('Bass', True, colors[actives[5]])
     screen.blit(bass_text, (10, 530))
-    for i in range(instruments):
-        pygame.draw.line(screen, gray, (0, (i * 100) + 100), (200, (i * 100) + 100), 3)
-    for i in range(beats):
+    for I in range(instruments):
+        pygame.draw.line(screen, gray, (0, (I * 100) + 100), (200, (I * 100) + 100), 3)
+    for I in range(beats):
         for j in range(instruments):
-            if clicks[j][i] == -1:
+            if clicks[j][I] == -1:
                 color = gray
             else:
                 if actives[j] == 1:
@@ -100,33 +102,38 @@ def draw_grid(clicks, beat, actives):
                     color = dark_gray
 
             rect = pygame.draw.rect(screen, color,
-                                    [i * ((WIDTH - 200) // beats) + 205, (j * 100) + 5, ((WIDTH - 200) // beats) - 10,
+                                    [I * ((WIDTH - 200) // beats) + 205, (j * 100) + 5, ((WIDTH - 200) // beats) - 10,
                                      ((HEIGHT - 200) // instruments) - 10], 0, 3)
             pygame.draw.rect(screen, dark_gray,
-                             [i * ((WIDTH - 200) // beats) + 200, (j * 100), ((WIDTH - 200) // beats),
+                             [I * ((WIDTH - 200) // beats) + 200, (j * 100), ((WIDTH - 200) // beats),
                               ((HEIGHT - 200) // instruments)], 5, 5)
             pygame.draw.rect(screen, black,
-                             [i * ((WIDTH - 200) // beats) + 200, (j * 100), ((WIDTH - 200) // beats),
+                             [I * ((WIDTH - 200) // beats) + 200, (j * 100), ((WIDTH - 200) // beats),
                               ((HEIGHT - 200) // instruments)], 2, 5)
-            boxes.append((rect, (i, j)))
+            boxes.append((rect, (I, j)))
 
-        active = pygame.draw.rect(screen, bright_red, [beat * ((WIDTH - 200)//beats) + 200, 0, ((WIDTH - 200)//beats), instruments * 100], 5, 3,)
+        active = pygame.draw.rect(screen, bright_red,
+                                  [beat * ((WIDTH - 200) // beats) + 200, 0, ((WIDTH - 200) // beats),
+                                   instruments * 100], 5, 3, )
     return boxes
 
 
+# noinspection DuplicatedCode
 def draw_save_menu():
+    # noinspection DuplicatedCode
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
-    exit_btn = pygame.draw.rect(screen, black, [WIDTH-200, HEIGHT - 100, 180, 90], 0, 5)
+    exit_btn = pygame.draw.rect(screen, black, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = caption_font.render('Close', True, white)
-    screen.blit(exit_text, (WIDTH-160, HEIGHT - 70))
+    screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
     return exit_btn
 
 
 def draw_load_menu():
+    # noinspection DuplicatedCode
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
-    exit_btn = pygame.draw.rect(screen, black, [WIDTH-200, HEIGHT - 100, 180, 90], 0, 5)
+    exit_btn: Union[Rect, RectType] = pygame.draw.rect(screen, black, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = caption_font.render('Close', True, white)
-    screen.blit(exit_text, (WIDTH-160, HEIGHT - 70))
+    screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
     return exit_btn
 
 
@@ -230,6 +237,7 @@ while run:
                 if instrument_rects[i].collidepoint(event.pos):
                     active_list[i] *= -1
         elif event.type == pygame.MOUSEBUTTONUP:
+            # noinspection PyUnboundLocalVariable
             if exit_button.collidepoint(event.pos):
                 save_menu = False
                 load_menu = False
