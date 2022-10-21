@@ -21,9 +21,9 @@ green = (0, 255, 127)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Simple Python Drum Machine by George Maysack')
-caption_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 32)
-medium_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 24)
-huge_font = pygame.font.Font('Fonts/VT323/VT323-Regular.ttf', 42)
+caption_font = pygame.font.Font('myFonts/VT323/VT323-Regular.ttf', 32)
+medium_font = pygame.font.Font('myFonts/VT323/VT323-Regular.ttf', 24)
+huge_font = pygame.font.Font('myFonts/VT323/VT323-Regular.ttf', 42)
 
 fps = 60
 timer = pygame.time.Clock()
@@ -40,17 +40,17 @@ beat_changed = True
 save_menu = False
 load_menu = False
 saved_beats = []
-file = open('saved_beats.txt', 'r')
+file = open('savedBeats.txt', 'r')
 for line in file:
     saved_beats.append(line)
 
-# Loading in drum sounds
-snare = mixer.Sound('Drum Sounds/snare.wav')
-kick = mixer.Sound('Drum Sounds/kick.wav')
-closed_hat = mixer.Sound('Drum Sounds/closed_hat.wav')
-shaker = mixer.Sound('Drum Sounds/shaker.wav')
-bell = mixer.Sound('Drum Sounds/bell.wav')
-bass = mixer.Sound('Drum Sounds/bass.wav')
+# Loading in drumSounds
+snare = mixer.Sound('drumSounds/snare.wav')
+kick = mixer.Sound('drumSounds/kick.wav')
+closed_hat = mixer.Sound('drumSounds/closed_hat.wav')
+shaker = mixer.Sound('drumSounds/shaker.wav')
+bell = mixer.Sound('drumSounds/bell.wav')
+bass = mixer.Sound('drumSounds/bass.wav')
 pygame.mixer.set_num_channels(instruments * 3)
 
 
