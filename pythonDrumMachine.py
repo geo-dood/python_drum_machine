@@ -1,3 +1,5 @@
+# Simple Drum Machine Application
+# Author: George Maysack-Schlueter
 # Importing PyGame & the Mixer, initializing it.
 from typing import Union
 
